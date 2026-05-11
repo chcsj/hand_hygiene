@@ -391,5 +391,27 @@
     } catch(e) { /* cross-origin – assume it loaded */ }
   }, 4000);
 </script>
+  const API_URL = "你的 Google Apps Script Web App URL";
+
+async function recordGlobalScan() {
+  try {
+    const url = API_URL 
+      + "?page=hand_hygiene"
+      + "&ua=" + encodeURIComponent(navigator.userAgent);
+
+    const res = await fetch(url);
+    const data = await res.json();
+
+    document.getElementById("totalCount").textContent = data.total ?? "—";
+    document.getElementById("todayCount").textContent = data.today ?? "—";
+  } catch (err) {
+    console.error("Scan count failed:", err);
+    document.getElementById("totalCount").textContent = "—";
+    document.getElementById("todayCount").textContent = "—";
+  }
+}
+
+recordGlobalScan();
+</script>
 </body>
 </html>
